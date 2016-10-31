@@ -32,6 +32,8 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_Supplierlist extends Module implements WidgetInterface
 {
+    protected $templateFile;
+
     public function __construct()
     {
         $this->name = 'ps_supplierlist';
@@ -53,10 +55,9 @@ class Ps_Supplierlist extends Module implements WidgetInterface
             array(),
             'Modules.Supplierlist.Admin'
         );
-        $this->ps_versions_compliancy = array(
-            'min' => '1.7.0.0',
-            'max' => _PS_VERSION_,
-        );
+        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
+
+        $this->templateFile = 'module:ps_supplierlist/views/templates/hook/ps_supplierlist.tpl';
     }
 
     public function install()
@@ -82,20 +83,18 @@ class Ps_Supplierlist extends Module implements WidgetInterface
     public function getContent()
     {
         $output = '';
+
         if (Tools::isSubmit('submitBlockSuppliers')) {
             $type = Tools::getValue('SUPPLIER_DISPLAY_TYPE');
             $text_nb = (int)Tools::getValue('SUPPLIER_DISPLAY_TEXT_NB');
-            if ('supplier_text' === $type
-                && !Validate::isUnsignedInt($text_nb)) {
+
+            if ('supplier_text' === $type && !Validate::isUnsignedInt($text_nb)) {
                 $errors[] = $this->trans(
                     'Invalid number of elements.',
                     array(),
                     'Modules.Supplierlist.Admin'
                 );
-            } elseif (!in_array(
-                $type,
-                array('supplier_text', 'supplier_form')
-            )) {
+            } elseif (!in_array($type, array('supplier_text', 'supplier_form'))) {
                 $errors[] = $this->trans(
                     'Please activate at least one type of list.',
                     array(),
@@ -103,25 +102,17 @@ class Ps_Supplierlist extends Module implements WidgetInterface
                 );
             } else {
                 Configuration::updateValue('SUPPLIER_DISPLAY_TYPE', $type);
-                Configuration::updateValue(
-                    'SUPPLIER_DISPLAY_TEXT_NB',
-                    $text_nb
-                );
+                Configuration::updateValue('SUPPLIER_DISPLAY_TEXT_NB', $text_nb);
                 $this->_clearCache('*');
             }
 
             if (isset($errors) && sizeof($errors)) {
                 $output .= $this->displayError(implode('<br />', $errors));
             } else {
-                $output .= $this->displayConfirmation(
-                    $this->trans(
-                        'Settings updated.',
-                        array(),
-                        'Modules.Supplierlist.Admin'
-                    )
-                );
+                $output .= $this->displayConfirmation($this->trans('Settings updated.', array(),'Admin.Global'));
             }
         }
+
         return $output.$this->renderForm();
     }
 
@@ -142,9 +133,7 @@ class Ps_Supplierlist extends Module implements WidgetInterface
 
     public function _clearCache($template, $id_cache = null, $id_compile = null)
     {
-        return parent::_clearCache(
-            'module:ps_supplierlist/ps_supplierlist.tpl'
-        );
+        return parent::_clearCache($this->templateFile);
     }
 
     public function renderForm()
@@ -152,40 +141,24 @@ class Ps_Supplierlist extends Module implements WidgetInterface
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->trans(
-                        'Settings',
-                        array(),
-                        'Modules.Supplierlist.Admin'
-                    ),
+                    'title' => $this->trans('Settings', array(), 'Admin.Global'),
                     'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     array(
                         'type' => 'select',
-                        'label' => $this->trans(
-                            'Type of display',
-                            array(),
-                            'Modules.Supplierlist.Admin'
-                        ),
+                        'label' => $this->trans('Type of display', array(), 'Modules.Supplierlist.Admin'),
                         'name' => 'SUPPLIER_DISPLAY_TYPE',
                         'required' => true,
                         'options' => array(
                             'query' => array(
                                 array(
                                     'id' => 'supplier_text',
-                                    'name' => $this->trans(
-                                        'Use a plain-text list',
-                                        array(),
-                                        'Modules.Supplierlist.Admin'
-                                    ),
+                                    'name' => $this->trans('Use a plain-text list', array(), 'Modules.Supplierlist.Admin'),
                                 ),
                                 array(
                                     'id' => 'supplier_form',
-                                    'name' => $this->trans(
-                                        'Use a drop-down list',
-                                        array(),
-                                        'Modules.Supplierlist.Admin'
-                                    ),
+                                    'name' => $this->trans('Use a drop-down list', array(), 'Modules.Supplierlist.Admin'),
                                 ),
                             ),
                             'id' => 'id',
@@ -194,21 +167,13 @@ class Ps_Supplierlist extends Module implements WidgetInterface
                     ),
                     array(
                         'type' => 'text',
-                        'label' => $this->trans(
-                            'Number of elements to display',
-                            array(),
-                            'Modules.Supplierlist.Admin'
-                        ),
+                        'label' => $this->trans('Number of elements to display', array(), 'Modules.Supplierlist.Admin'),
                         'name' => 'SUPPLIER_DISPLAY_TEXT_NB',
                         'class' => 'fixed-width-xs',
                     ),
                 ),
                 'submit' => array(
-                    'title' => $this->trans(
-                        'Save',
-                        array(),
-                        'Modules.Supplierlist.Admin'
-                    ),
+                    'title' => $this->trans('Save', array(), 'Admin.Actions'),
                 ),
             ),
         );
@@ -244,57 +209,36 @@ class Ps_Supplierlist extends Module implements WidgetInterface
     public function getConfigFieldsValues()
     {
         return array(
-            'SUPPLIER_DISPLAY_TYPE' => Tools::getValue(
-                'SUPPLIER_DISPLAY_TYPE',
-                Configuration::get('SUPPLIER_DISPLAY_TYPE')
-            ),
-            'SUPPLIER_DISPLAY_TEXT_NB' => Tools::getValue(
-                'SUPPLIER_DISPLAY_TEXT_NB',
-                Configuration::get('SUPPLIER_DISPLAY_TEXT_NB')
-            ),
+            'SUPPLIER_DISPLAY_TYPE' => Tools::getValue('SUPPLIER_DISPLAY_TYPE', Configuration::get('SUPPLIER_DISPLAY_TYPE')),
+            'SUPPLIER_DISPLAY_TEXT_NB' => Tools::getValue('SUPPLIER_DISPLAY_TEXT_NB', Configuration::get('SUPPLIER_DISPLAY_TEXT_NB')),
         );
     }
 
     public function renderWidget($hookName, array $configuration)
     {
         $cacheId = $this->getCacheId();
-        $isCached = $this->isCached(
-            'module:ps_supplierlist/ps_supplierlist.tpl',
-            $cacheId
-        );
+        $isCached = $this->isCached($this->templateFile, $cacheId);
 
         if (!$isCached) {
-            $this->smarty->assign(
-                $this->getWidgetVariables($hookName, $configuration)
-            );
+            $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
-        return $this->fetch(
-            'module:ps_supplierlist/ps_supplierlist.tpl',
-            $cacheId
-        );
+
+        return $this->fetch($this->templateFile, $cacheId);
     }
 
     public function getWidgetVariables($hookName, array $configuration)
     {
-        $id_lang = (int)Context::getContext()->language->id;
-
-        $suppliers = Supplier::getSuppliers(false, $id_lang);
+        $suppliers = Supplier::getSuppliers(false, (int)Context::getContext()->language->id);
         foreach ($suppliers as &$supplier) {
-            $supplier['link'] = $this->context->link->getSupplierLink(
-                $supplier
-            );
+            $supplier['link'] = $this->context->link->getSupplierLink($supplier);
         }
 
         return array(
             'suppliers' => $suppliers,
             'page_link' => $this->context->link->getPageLink('supplier'),
-            'supplier_display_type' => Configuration::get(
-                'SUPPLIER_DISPLAY_TYPE'
-            ),
+            'supplier_display_type' => Configuration::get('SUPPLIER_DISPLAY_TYPE'),
             'text_list_nb' => Configuration::get('SUPPLIER_DISPLAY_TEXT_NB'),
-            'display_link_supplier' => Configuration::get(
-                'PS_DISPLAY_SUPPLIERS'
-            ),
+            'display_link_supplier' => Configuration::get('PS_DISPLAY_SUPPLIERS'),
         );
     }
 }
