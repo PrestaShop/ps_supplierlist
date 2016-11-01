@@ -27,7 +27,7 @@
   <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
     <option value="">{l s='All suppliers' d='Modules.Supplierlist.Shop'}</option>
     {foreach from=$suppliers item=supplier}
-      <option value="{$supplier['link']}" title="{$supplier['name']}">{$supplier['name']}</option>
+      <option value="{$supplier['link']}">{$supplier['name']}</option>
     {/foreach}
   </select>
 </form>
