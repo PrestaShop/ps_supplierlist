@@ -109,7 +109,7 @@ class Ps_Supplierlist extends Module implements WidgetInterface
             if (isset($errors) && sizeof($errors)) {
                 $output .= $this->displayError(implode('<br />', $errors));
             } else {
-                $output .= $this->displayConfirmation($this->trans('Settings updated.', array(),'Admin.Global'));
+                $output .= $this->displayConfirmation($this->trans('The settings have been updated.', array(), 'Admin.Notifications.Success'));
             }
         }
 
