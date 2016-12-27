@@ -168,6 +168,7 @@ class Ps_Supplierlist extends Module implements WidgetInterface
                     array(
                         'type' => 'text',
                         'label' => $this->trans('Number of elements to display', array(), 'Modules.Supplierlist.Admin'),
+                        'desc' => $this->trans('Only apply in plain-text mode', array(), 'Modules.Supplierlist.Admin'),
                         'name' => 'SUPPLIER_DISPLAY_TEXT_NB',
                         'class' => 'fixed-width-xs',
                     ),
