@@ -229,9 +229,20 @@ class Ps_Supplierlist extends Module implements WidgetInterface
 
     public function getWidgetVariables($hookName, array $configuration)
     {
-        $suppliers = Supplier::getSuppliers(false, (int)Context::getContext()->language->id);
-        foreach ($suppliers as &$supplier) {
-            $supplier['link'] = $this->context->link->getSupplierLink($supplier);
+        $suppliers = Supplier::getSuppliers(
+            false,
+            (int)Context::getContext()->language->id,
+            $active = true,
+            $p = false,
+            $n = false,
+            $allGroups = false,
+            $withProduct = true
+        );
+
+        if (!empty($suppliers)) {
+            foreach ($suppliers as &$supplier) {
+                $supplier['link'] = $this->context->link->getSupplierLink($supplier);
+            }
         }
 
         return array(
