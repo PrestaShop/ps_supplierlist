@@ -2,7 +2,7 @@
 
 ## About
 
-Adds a block with a list of your product suppliers on your shop.
+Display your suppliers on your catalog and allow visitors to filter their search by supplier.
 
 ## Multistore compatibility
 

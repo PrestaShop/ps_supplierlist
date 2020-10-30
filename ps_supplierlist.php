@@ -51,7 +51,7 @@ class Ps_Supplierlist extends Module implements WidgetInterface
             'Modules.Supplierlist.Admin'
         );
         $this->description = $this->trans(
-            'Adds a block with a list of your product suppliers on your shop.',
+            'Display your suppliers on your catalog and allow visitors to filter their search by supplier.',
             array(),
             'Modules.Supplierlist.Admin'
         );
