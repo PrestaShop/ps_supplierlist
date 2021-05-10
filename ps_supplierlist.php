@@ -240,8 +240,8 @@ class Ps_Supplierlist extends Module implements WidgetInterface
         );
 
         if (!empty($suppliers)) {
-            foreach ($suppliers as &$supplier) {
-                $supplier['link'] = $this->context->link->getSupplierLink($supplier);
+            foreach ($suppliers as $key => $supplier) {
+                $suppliers[$key]['link'] = $this->context->link->getSupplierLink($suppliers[$key]['id_supplier']);
             }
         }
 
