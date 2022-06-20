@@ -116,9 +116,9 @@ class Ps_Supplierlist extends Module implements WidgetInterface
 
         if (Tools::isSubmit('submitBlockSuppliers')) {
             $type = Tools::getValue('SUPPLIER_DISPLAY_TYPE');
-            $text_nb = (int) Tools::getValue('SUPPLIER_DISPLAY_TEXT_NB');
+            $text_nb = Tools::getValue('SUPPLIER_DISPLAY_TEXT_NB');
 
-            if ('supplier_text' === $type && !Validate::isUnsignedInt($text_nb)) {
+            if (!Validate::isUnsignedInt($text_nb)) {
                 $errors[] = $this->trans(
                     'Invalid number of elements.',
                     [],
@@ -132,7 +132,7 @@ class Ps_Supplierlist extends Module implements WidgetInterface
                 );
             } else {
                 Configuration::updateValue('SUPPLIER_DISPLAY_TYPE', $type);
-                Configuration::updateValue('SUPPLIER_DISPLAY_TEXT_NB', $text_nb);
+                Configuration::updateValue('SUPPLIER_DISPLAY_TEXT_NB', (int) $text_nb);
                 $this->_clearCache('*');
             }
 
