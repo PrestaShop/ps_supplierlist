@@ -247,6 +247,10 @@ class Ps_Supplierlist extends Module implements WidgetInterface
 
     public function renderWidget($hookName, array $configuration)
     {
+        if (!Configuration::get('PS_DISPLAY_SUPPLIERS')) {
+            return;
+        }
+
         $cacheId = $this->getCacheId();
         $isCached = $this->isCached($this->templateFile, $cacheId);
 
