@@ -2,7 +2,7 @@
 <module>
 	<name>ps_supplierlist</name>
 	<displayName><![CDATA[Supplier List]]></displayName>
-	<version><![CDATA[1.0.4]]></version>
+	<version><![CDATA[1.0.6]]></version>
 	<description><![CDATA[Adds a block with a list of your product suppliers on your shop.]]></description>
 	<author><![CDATA[PrestaShop]]></author>
 	<tab><![CDATA[front_office_features]]></tab>
