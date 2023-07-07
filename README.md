@@ -4,6 +4,10 @@
 
 Display your suppliers on your catalog and allow visitors to filter their search by supplier.
 
+## Compatibility
+
+PrestaShop: `1.7.0.0` or later
+
 ## Multistore compatibility
 
 This module is compatible with the multistore :heavy_check_mark: <br/>
