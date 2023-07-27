@@ -247,6 +247,12 @@ class Ps_Supplierlist extends Module implements WidgetInterface
 
     public function renderWidget($hookName, array $configuration)
     {
+        // If supplier listing is disabled in backoffice, we won't show this block.
+        // Customers would be pointed to 404 anyway.
+        if (!Configuration::get('PS_DISPLAY_SUPPLIERS')) {
+            return;
+        }
+
         $cacheId = $this->getCacheId();
         $isCached = $this->isCached($this->templateFile, $cacheId);
 
