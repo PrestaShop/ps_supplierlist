@@ -15,6 +15,14 @@ It can be configured differently from one store to another.<br/>
 It can be configured quickly in the same way on all stores thanks to the all shops context or the group of shops.<br/>
 It can be activated on one store and deactivated on another
 
+## How to test
+
+Link to specs : https://docs.prestashop-project.org/functional-documentation/functional-documentation/ux-ui/back-office/improve/modules/supplier-list
+
+In FO > Category page, a Suppliers block is displayed
+In BO, check that the 2 types of display are available
+If plain-text mode is enabled, the number of elements can also be chosen
+
 ## Contributing
 
 PrestaShop modules are open-source extensions to the PrestaShop e-commerce solution. Everyone is welcome and even encouraged to contribute with their own improvements.
